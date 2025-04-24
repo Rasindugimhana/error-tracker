@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Error Tracker</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f0f4f8;
+    }
+
+    #errorLogContainer {
+      background-color: #fff;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    #errorList {
+      list-style: none;
+      padding: 0;
+    }
+
+    #errorList li {
+      color: red;
+      margin: 5px 0;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <h1>Client-side Error Tracker</h1>
+  <div id="errorLogContainer">
+    <h2>Captured Errors:</h2>
+    <ul id="errorList"></ul>
+    <button onclick="throwTestError()">Trigger Test Error</button>
+  </div>
+
+  <script>
+    const errorList = document.getElementById("errorList");
+
+    window.onerror = function (msg, url, lineNo, columnNo, error) {
+      const errorMsg = `Error: ${msg} at ${lineNo}:${columnNo}`;
+      const listItem = document.createElement("li");
+      listItem.textContent = errorMsg;
+      errorList.appendChild(listItem);
+      return false; // allow default console logging
+    };
+
+    function throwTestError() {
+      nonExistentFunction(); // This will throw a reference error
+    }
+
+    // Auto test error after 2 seconds
+    setTimeout(throwTestError, 2000);
+  </script>
+</body>
+</html>
